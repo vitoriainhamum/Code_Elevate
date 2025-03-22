@@ -68,9 +68,9 @@ logs_df.agg(
 
 #Dia da semana com maior número de erros
 logs_df.filter(col("status").startswith("4")) \
-       .withColumn("day_of_week", dayofweek(to_date("timestamp", "dd/MMM/yyyy"))) \
-       .groupBy("day_of_week").count() \
-       .orderBy(desc("count")) \
-       .show()
+        .withColumn("day_of_week", date_format(to_date("timestamp", "dd/MMM/yyyy"), "EEEE")) \
+        .groupBy("day_of_week").count() \
+        .orderBy(desc("count")) \
+        .show()
 
 logs_df.write.format("delta").mode("overwrite").save("/mnt/delta/logs_delta")
