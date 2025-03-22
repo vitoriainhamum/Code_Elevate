@@ -42,6 +42,15 @@ logs_df.groupBy("ip").count() \
        .limit(10) \
        .show()
 
+# Criar um gráfico com os 10 IPs mais frequentes
+ip_counts = logs_df.groupBy("ip").count().orderBy(desc("count")).limit(10).toPandas()
+plt.bar(ip_counts["ip"], ip_counts["count"])
+plt.xlabel("IP")
+plt.ylabel("Acessos")
+plt.title("Top 10 IPs mais frequentes")
+plt.xticks(rotation=90)
+plt.show()
+
 #Liste os 6 endpoints mais acessados (desconsiderando arquivos):
 # Filtrando endpoints sem extensão de arquivos
 filtered_df = logs_df.filter(~col("endpoint").rlike(r"\.\w+$"))
